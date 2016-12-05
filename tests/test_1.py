@@ -38,7 +38,7 @@ time_delta = 60
 # from the timeseries file alone.
 
 # OOP way
-SwaleHydroS = cpl.CaesarTimeseriesPlot(data_dir, "*.dat", "cumulative_sed_tot",
+SwaleHydroS = cpl.CaesarTimeseriesPlot(data_dir, "*.dat", "q_lisflood",
                                        time_delta=time_delta,
                                        time_label='days',
                                        colormap='jet')
