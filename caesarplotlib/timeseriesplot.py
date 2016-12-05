@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """
+timeseriesplot.py
+
 Created on Thu Jun 16 12:08:22 2016
 
 Caesar Lisflood plotting tools
@@ -265,25 +267,3 @@ class CaesarTimeseriesPlot(object):
         hours = convert_timestep(x)
         line, = self.ax.plot(hours, y, '--k', linewidth=2)
         line.set_label("Measured")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
