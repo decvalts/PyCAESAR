@@ -10,7 +10,7 @@ Test
 import caesarplotlib.timeseriesplot as cpl
 
 
-data_dir = "/mnt/SCRATCH/Analyses/Topmodel_Sensitivity/Ryedale_storms_calibrate/"
+data_dir = "testdata/"
 
 external_file_data = "Ryedale72hours_measured.csv"
 

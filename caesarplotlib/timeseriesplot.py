@@ -213,7 +213,7 @@ class CaesarTimeseriesPlot(object):
         part3 = re.split("[_.]", fname)[2]
         part4 = re.split("[_.]", fname)[3]
 
-        part = part3 + ' ' + part4
+        part = "M = " + part1
         print part
         return part
 
