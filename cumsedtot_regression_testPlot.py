@@ -20,8 +20,10 @@ from matplotlib import rcParams
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 
+from caesarplotlib import labellines
+
 # This is a custom module
-from label_lines import *
+#from label_lines import *
 
 
 # Plotting parameters
@@ -242,7 +244,7 @@ class CaesarTimeseriesPlot(object):
 
     def add_line_labels(self):
         x_pos = [44.3, 45.8, 48, 52, 56, 60]
-        labelLines(self.ax.get_lines(), zorder=2.5,
+        labellines.labelLines(self.ax.get_lines(), zorder=2.5,
                    align=True, fontsize=10, xvals=x_pos)
 
     def save_figure(self, save_name="test.png"):

@@ -19,8 +19,7 @@ from matplotlib import rcParams
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 
-# This is a custom module
-from label_lines import *
+import labellines
 
 
 # Plotting parameters
@@ -218,7 +217,7 @@ class CaesarTimeseriesPlot(object):
 
     def add_line_labels(self):
         x_pos = [44.3, 45.8, 48, 52, 56, 60]
-        labelLines(self.ax.get_lines(), zorder=2.5,
+        labellines.labelLines(self.ax.get_lines(), zorder=2.5,
                    align=True, fontsize=10, xvals=x_pos)
 
     def save_figure(self, save_name="test.png"):
@@ -266,53 +265,6 @@ class CaesarTimeseriesPlot(object):
         hours = convert_timestep(x)
         line, = self.ax.plot(hours, y, '--k', linewidth=2)
         line.set_label("Measured")
-
-
-
-
-# VARIABLES
-#data_dir = "/mnt/SCRATCH/Analyses/HydrogeomorphPaper/"
-data_dir = "/mnt/SCRATCH/Analyses/RegressionTest/final_regression_test_intel_gcc/"
-#data_dir = "/run/media/dav/SHETLAND/Analyses/HydrogeomorphPaper/BOSCASTLE/Analysis/"
-#data_dir="/mnt/WORK/Dev/PyToolsPhD/Radardata_tools"
-#data_dir = "/mnt/SCRATCH/Analyses/Topmodel_Sensitivity/Ryedale_storms_calibrate/"
-
-input_raster2 = "elev.txt"
-input_raster1 = "elevdiff.txt"
-# input_raster2 = "rainfall_totals_boscastle_downscaled.asc"
-
-# A text file with x, y scatter values, in case of future use
-outpt_datafile_name = "elev_vs_erosion.txt"
-
-fname = "boscastle_lumped_detachlim.dat"
-wildcard_fname = "ryedale_*.dat"
-
-external_file_data = "Ryedale72hours_measured.csv"
-
-
-# Run the script
-# elev, total_precip = create_data_arrays(data_dir, input_raster2, input_raster1)
-# plot_scatter_rasterdata(elev, total_precip)
-
-#plot_hydrograph(data_dir, fname, "q_lisflood", draw_inset=True)
-
-time_delta = 60
-# time delta is the difference between output time steps in the .dat file (minutes)
-# You must know this beforehand, i.e. it can't be calculated from the timeseries
-# file alone.
-
-# OOP way
-SwaleHydroS = CaesarTimeseriesPlot(data_dir, "*.dat", "sed_tot",
-                                   time_delta=time_delta, time_label='days',
-                                   colormap='gnuplot2')
-
-SwaleHydroS.plot_ensemble_hydrograph(draw_inset=True, labellines=False)
-#BosHydroS.plot_external_data(data_dir + external_file_data)
-SwaleHydroS.plot_legend()
-#SwaleHydroS.save_figure("TEST.svg")
-SwaleHydroS.ax.set_xlim(0,250)
-SwaleHydroS.ax.set_ylim(0,200)
-# ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
 
 
