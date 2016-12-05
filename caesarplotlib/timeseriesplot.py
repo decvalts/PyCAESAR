@@ -264,6 +264,6 @@ class CaesarTimeseriesPlot(object):
         a gauging station
         """
         x, y = np.loadtxt(filename, unpack=True, delimiter=',')
-        hours = convert_timestep(x)
+        hours = convert_timestep(x, self.time_delta, self.time_label)
         line, = self.ax.plot(hours, y, '--k', linewidth=2)
         line.set_label("Measured")
