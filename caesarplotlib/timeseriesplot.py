@@ -31,6 +31,13 @@ rcParams['font.size'] = 16
 
 
 def create_data_arrays(data_dir, input_raster1, input_raster2):
+    """This function creates data arrays from two input rasters.
+
+    :param data_dir: The path to your rasters
+    :param input_raster1: The name of raster 1, with extension
+    :param input_raster2: The name of raster 2, with extension
+    :returns: Two numpy arrays, containing the raster data.
+    """
     load_data1 = data_dir + "/" + input_raster1
     load_data2 = data_dir + "/" + input_raster2
     data_raster1 = np.loadtxt(load_data1, skiprows=6)
