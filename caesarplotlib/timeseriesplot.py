@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-timeseriesplot.py
+Caesar Lisflood timeseries plotting tools
 
-Created on Thu Jun 16 12:08:22 2016
-
-Caesar Lisflood plotting tools
-
-This module is for plotting output fromt he CAESAR-Lisflood model timeseries files
+This module is for plotting output fromt the CAESAR-Lisflood model timeseries files
 (i.e. the .dat file from a simulation, if you've stuck with the default naming convention.)
 
-@author: dav
+:author: DAV
 """
 import glob
 import os
@@ -37,6 +33,7 @@ def create_data_arrays(data_dir, input_raster1, input_raster2):
     :param input_raster1: The name of raster 1, with extension
     :param input_raster2: The name of raster 2, with extension
     :returns: Two numpy arrays, containing the raster data.
+    :author: DAV
     """
     load_data1 = data_dir + "/" + input_raster1
     load_data2 = data_dir + "/" + input_raster2
@@ -48,6 +45,14 @@ def create_data_arrays(data_dir, input_raster1, input_raster2):
 
 
 def plot_scatter_rasterdata(data_array1, data_array2):
+    """Plots data from a raster dataset as an x-y scattergraph.
+    
+    So if you have two rasters, one of elevation, and one of erosion,
+    you could plot erosion amount as a function of elevation.
+    
+    :param data_array1: A numpy array
+    :param data_array2: Another numpy array
+    """
     plt.scatter(data_array1, data_array2, marker="x")
     plt.xlim(0, 300)
     # plt.ylim(0,1400)
@@ -57,9 +62,11 @@ def plot_scatter_rasterdata(data_array1, data_array2):
 
 
 def convert_timestep(time_step, time_delta, time_label):
+    """This converts a unitless timestep from model output, for example, 
+    into one with units based on the difference between timesteps and the
+    time unit
+    """
     # Supported time formats: minutes, hours, days, years
-
-
 
     minutes = time_step*time_delta
     hours = minutes/60
@@ -79,6 +86,12 @@ def convert_timestep(time_step, time_delta, time_label):
 
 
 class CaesarTimeseriesPlot(object):
+    """This class creates objects composed of matplotlib figures and axes,
+    that display the timeseries plotted data.
+    
+    There are methods for extracting data from input files, and plotting it in
+    different formats.
+    """
 
     def __init__(self, data_dir, fname, datametric, time_delta=60, time_label='hours',
                  colormap='jet'):
@@ -97,6 +110,20 @@ class CaesarTimeseriesPlot(object):
     Extracts the relevant data column from the timeseries file.
     """
     def get_datametric_array(self, filename, data_name):
+        """Reads data into an array from a filename,
+        which should be the caesar-lisflood output file. (.dat")
+        
+        :param filename: Full path to the filename
+        :param data_name: Name of the measurement you want to plot.
+        
+        Supported metrics (data_name) are:
+            time_step
+            q_losflood
+            q_topmodel
+            sed_tot
+            d1, d2, d3, ..., d9 (i.e. Grain size fraction amounts)
+            cumulative_sed_tot
+        """
         time_step, \
         q_lisflood, \
         q_topmodel, \
@@ -130,6 +157,7 @@ class CaesarTimeseriesPlot(object):
 
     def plot_hydrograph(self, current_timeseries=None,
                         draw_inset=False, ax_inset=None):
+        """Plots a hydrograph"""
         if current_timeseries is None:
             current_timeseries = self.fname
 
@@ -164,6 +192,7 @@ class CaesarTimeseriesPlot(object):
 
 
     def plot_ensemble_hydrograph(self, draw_inset=False, labellines=False):
+        """Plots multiple hydrographs on the same axes"""
 
         cm = plt.get_cmap(self.colormap)
         self.ax.set_color_cycle([cm(1.*i/self.num_graphs)
@@ -191,6 +220,9 @@ class CaesarTimeseriesPlot(object):
            self.add_line_labels()
 
     def set_labels(self):
+        """ Returns formatted labels from a dictionary based on the data_name supplied
+        in get_data_metric_array()
+        """
 
         label_dic = {
           'q_lisflood': "water discharge ($m^3s^{-1}$)",
@@ -225,6 +257,10 @@ class CaesarTimeseriesPlot(object):
         return part
 
     def add_line_labels(self):
+        """Experimental. Adds text labels to individual lines in the 
+        hydrograph plots. Positioning of the labels can sometimes be a bit weird, 
+        so use with trial and error.
+        """
         x_pos = [44.3, 45.8, 48, 52, 56, 60]
         labellines.labelLines(self.ax.get_lines(), zorder=2.5,
                    align=True, fontsize=10, xvals=x_pos)
@@ -233,6 +269,7 @@ class CaesarTimeseriesPlot(object):
         self.fig.savefig(save_name, bbox_inches='tight')
 
     def create_inset_axes(self):
+        
         ax_inset = zoomed_inset_axes(self.ax, 3.5, loc=1)
 
         cm = plt.get_cmap(self.colormap)
@@ -246,6 +283,7 @@ class CaesarTimeseriesPlot(object):
         return ax_inset
 
     def plot_inset(self, x_data, y_data):
+        """Plots an inset window to show a zooomed in portion of the graph"""
 
         self.ax_inset.plot(x_data, y_data,alpha=0.5)
         # SHould be user settable
@@ -253,6 +291,7 @@ class CaesarTimeseriesPlot(object):
         self.ax_inset.set_ylim(5, 30)
 
     def plot_legend(self):
+        """Plots the legend"""
         self.ax.legend(#bbox_to_anchor=(1, 0.4),
                #loc='center left', prop={'size': 11})
                loc=2, prop={'size': 11})
