@@ -7,4 +7,5 @@ install: "pip install -r requirements.txt"
 # here you would call the testing script
 # but I need to check this first...
 # come back soon!
-#
+script:
+  tests/test_1.py
