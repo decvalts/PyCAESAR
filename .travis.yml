@@ -8,4 +8,4 @@ install: "pip install -r requirements.txt"
 # but I need to check this first...
 # come back soon!
 script:
-  tests/test_1.py
+  python tests/test_1.py
