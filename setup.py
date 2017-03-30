@@ -9,5 +9,8 @@ setup(name='caesarplotlib',
       author_email='dvalts@gmail.com',
       license='GNU GPL v3',
       packages=['caesarplotlib'],
+      install_requires=[
+                "matplotlib",
+      ],
       zip_safe=False)
 
